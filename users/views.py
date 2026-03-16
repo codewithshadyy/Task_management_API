@@ -12,10 +12,12 @@ from .models import User
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
     
-    def validate(self, data):
-        if data['email'].exists():
-            Response.json({'message':'user already exists'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def post(self, request):
+        return Response({"message":"great user created"})
+ 
             
 
         

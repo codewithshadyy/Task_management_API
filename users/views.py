@@ -15,8 +15,8 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     
     
-    def post(self, request):
-        return Response({"message":"great user created"})
+    # def post(self, request):
+    #     return Response({"message":"great user created"})
  
             
 

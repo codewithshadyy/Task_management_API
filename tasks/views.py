@@ -8,12 +8,18 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 class TaskViewSet(viewsets.ModelViewSet):
     
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated, ISAuthorOnly]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ["status", "priority"]
+    ordering_fields = ["due_date", "completed_at", "priority"]
+    ordering = ["due_date"]
   
     
     def get_queryset(self):

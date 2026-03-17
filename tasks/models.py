@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from django.conf import settings
 
@@ -11,8 +12,7 @@ class Task(models.Model):
     
     TASK_STATUS = [
         ("pending", "pending"),
-        ("completed", "compleleted"),
-        ("cancelled", "cancelled"),
+        ("completed", "compleleted")
     ]
     title = models.CharField()
     description = models.TextField()
@@ -20,6 +20,18 @@ class Task(models.Model):
     due_date = models.DateTimeField(auto_now_add=True)
     priority_level = models.CharField(choices=PRIORITY_LEVEL, default='medium')
     status = models.CharField(choices=TASK_STATUS, default='pending')
+    completed_at = models.DateTimeField(blank=True, null=True)
+    
+    def mark_complete(self):
+        self.status = "completed",
+        self.completed_at = timezone.now()
+        self.save()
+        
+    def mark_incomplete(self):
+        self.status = "pending",
+        self.completed_at = None
+        self.save()
+            
     
     def __str__(self):
         return self.title
